@@ -1,8 +1,81 @@
 import 'package:flutter/material.dart';
+import 'package:hub/pages/todo_page.dart';
 import 'package:hub/widgets/module_card.dart';
 
+class AppModule{
+  final String title;
+  final String subtitle;
+  final IconData icon;
+  final Color color;
+  final bool isActive;
+  final Widget? page;
+
+  const AppModule({
+    required this.title,
+    required this.subtitle,
+    required this.icon,
+    required this.color,
+    this.isActive = false,
+    this.page
+  });
+}
+
 class HomePage extends StatelessWidget{
-  const HomePage({super.key});
+   HomePage({super.key});
+
+  final List<AppModule> modules = [
+    AppModule(
+              title: "Todo App", 
+              subtitle: "Créer, cocher et supprimer des taches", 
+              color: Colors.green,
+              isActive: true,
+              icon: Icons.check_circle,
+              page: TodoPage()
+              ),
+
+              
+              AppModule(
+              title: "Book App", 
+              subtitle: "Gestion d'une mini bibliotheque", 
+              color: Colors.red,
+              icon: Icons.check_circle,
+              ),
+
+              AppModule(
+              title: "Notes App", 
+              subtitle: "Gestion des notes", 
+              color: Colors.red,
+              icon: Icons.check_circle,
+              ),
+
+              AppModule(
+              title: "Depense Tracher", 
+              subtitle: "Gerer mes depenses", 
+              color: Colors.red,
+              icon: Icons.check_circle,
+              ),
+
+              AppModule(
+              title: "Quizz App", 
+              subtitle: "Bla bla bla ...", 
+              color: Colors.red,
+              icon: Icons.check_circle,
+              ),
+  ];
+
+
+  void openModule(BuildContext context,AppModule module){
+    if(module.page == null){
+      return;
+    }
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => module.page!
+      )
+    );
+  }
   
   @override
   Widget build(BuildContext context) {
@@ -28,21 +101,19 @@ class HomePage extends StatelessWidget{
               ),
             ),
             const SizedBox(height: 28,),
-            const ModuleCard(
-              title: "Maths", 
-              subtitle: "cours de maths", 
-              color: Colors.green,
-              isActive: true,
-              icon: Icons.check_circle,
-              ),
-              const ModuleCard(
-              title: "Maths", 
-              subtitle: "cours de maths", 
-              color: Colors.red,
-              isActive: false,
-              icon: Icons.check_circle,
-              ),
-            
+
+
+              ...modules.map((module){
+                return ModuleCard(
+                title: module.title, 
+                subtitle: module.subtitle, 
+                color: module.color,
+                isActive: module.isActive,
+                icon: module.icon,
+                onTap: () => openModule(context, module),
+                );
+              })
+
           ],
         ),
       ),

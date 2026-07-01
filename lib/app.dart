@@ -16,7 +16,7 @@ class FlutterStarterHupApp extends StatelessWidget{
           seedColor: const Color(0xff4f46e5),
         ),
       ),
-      home: const HomePage(),
+      home: HomePage(),
     );
   }
 }
